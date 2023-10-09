@@ -1,6 +1,10 @@
+use crate::instructions::InstructionSize;
+
+use super::cpu::MemoryBus;
+
 #[derive(Debug)]
 pub(super) struct Memory {
-    memory: Vec<u32>,
+    memory: Vec<InstructionSize>,
 }
 
 impl Memory {
@@ -12,5 +16,17 @@ impl Memory {
         Self {
             memory: vec![0; Memory::default_memory_size()],
         }
+    }
+}
+
+impl MemoryBus for Memory {
+    fn load(&self, address: usize) -> InstructionSize {
+        // 範囲外アクセスはパニックすべき
+        *self.memory.get(address).unwrap()
+    }
+
+    fn store(&mut self, address: usize, value: InstructionSize) {
+        // 範囲外アクセスはパニックすべき
+        *self.memory.get_mut(address).unwrap() = value;
     }
 }

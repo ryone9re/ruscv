@@ -1,3 +1,5 @@
+pub type InstructionSize = u32;
+
 macro_rules! opcode {
     ($insn:expr) => {
         $insn & 0b1111111
